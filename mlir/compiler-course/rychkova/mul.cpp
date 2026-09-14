@@ -3,6 +3,7 @@
 #include "mlir/Dialect/Math/IR/Math.h"
 #include "mlir/IR/PatternMatch.h"
 #include "mlir/Pass/Pass.h"
+#include "mlir/Tools/Plugins/PassPlugin.h"
 #include "mlir/Transforms/GreedyPatternRewriteDriver.h"
 
 using namespace mlir;
@@ -81,3 +82,9 @@ std::unique_ptr<Pass> createFmaFusionPass() {
 }
 
 static PassRegistration<FmaFusionPass> pass;
+
+extern "C" LLVM_ATTRIBUTE_WEAK ::mlir::PassPluginLibraryInfo
+mlirGetPassPluginInfo() {
+  return {MLIR_PLUGIN_API_VERSION, "FmaFusion", LLVM_VERSION_STRING,
+          []() { PassRegistration<FmaFusionPass>(); }};
+}
