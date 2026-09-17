@@ -1,4 +1,4 @@
-// RUN: mlir-opt %s --fma-fusion | FileCheck %s
+// RUN: mlir-opt -load-pass-plugin=%mlir_lib_dir/rychkova_retake_MLIR%shlibext --pass-pipeline="builtin.module(func.func(fma-fusion))" %s | FileCheck %s
 
 // CHECK-LABEL: func @simple_fma
 func.func @simple_fma(%a: f32, %b: f32, %c: f32) -> f32 {
